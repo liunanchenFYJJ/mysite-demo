@@ -1,20 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
+import Layout from '@/views/Layout' //Layout 中写布局
 import Notfound from '@/views/Notfound'
 import Aboutme from '@/views/Aboutme'
-import Address from '@/views/Aboutme'
+import Address from '@/views/Address'
 import User from '@/views/User'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
+  // base: __dirname,
   routes: [
-    {path: '/', redirect: {name: 'Home'}},
+    {path: '/', redirect: {name: 'Layout'}},
     {
-      path: '/home',
-      name: 'Home',
-      component: Home
+      path: '/layout',
+      name: 'Layout',
+      component: Layout,
+      redirect: '/layout/home',
+      children: [
+        {
+          path: 'home',
+          name: 'Home',
+          component: Home
+        }
+      ]
     },
     {
       path: '/user/:name',
