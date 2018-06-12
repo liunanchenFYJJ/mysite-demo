@@ -1,17 +1,19 @@
 <template>
     <div>
-        <Cus-header />
+        <Cus-nav />
+        <Carousel />
         <router-view />
         <Sticky-footer />                   
     </div>
 </template>
 
 <script>
-import CusHeader from '@/components/Cus-header'
+import CusNav from '@/components/Cus-nav'
+import Carousel from '@/components/Carousel'
 import StickyFooter from '@/components/Sticky-footer'
 export default {
     name: 'Layout',    
-    components: { StickyFooter, CusHeader }
+    components: { StickyFooter, CusNav, Carousel }
 }
 </script>
 
