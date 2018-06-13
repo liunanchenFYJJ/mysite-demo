@@ -1,8 +1,9 @@
 <template>
     <div>
         <Cus-nav />
-        <Carousel />
+        <!-- <Carousel /> -->
         <router-view />
+        <router-view name="custom"/>
         <Sticky-footer />                   
     </div>
 </template>

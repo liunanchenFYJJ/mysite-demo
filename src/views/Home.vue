@@ -1,5 +1,6 @@
 <template>
     <div>
+        home
         <!-- <main role="main" class="container">
             <div class="jumbotron">
                 <h1>Navbar example</h1>
@@ -9,3 +10,9 @@
         </main> -->
     </div>
 </template>
+<style scoped>
+div {
+    margin: 100px
+}
+</style>
+
