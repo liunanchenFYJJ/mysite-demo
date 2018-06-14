@@ -18,33 +18,34 @@ export default {
     components: { StickyFooter, CusNav, Carousel },
     methods: {
         getreq: function() {
-            console.log('come');
-            // $.get('http://localhost:3000', {}, function(e) {
-            //     console.log(e.data);
+            $.get('http://localhost:3000', {}, function(data, textStatus) {
+                console.log(data);
+                console.log(textStatus);
+            }, 'json');
+            // $.ajax({
+            //     url: 'http://localhost:3000',
+            //     type: 'GET',
+            //     data: {},
+            //     dataType: "jsonp",
+            //     // crossDomain: true,
+            //     jsonpCallback: "sucCallback",
+            //     success: function(data, textStatus) {
+            //         console.log(data);
+            //         console.log(textStatus);
+            //     }
             // });
             // vueresource!
             // this.$http.get('https://api.douban.com//v2/movie/top250').then((response) => {
             //     this.movie = response.data;
             //     console.log(this.movie); 
             // });
-            var url = 'http://localhost:3000';
-            $.ajax(url, {
-                type: "GET",
-                // contentType:"application/json; charset=utf-8",  //  ---->  问题就在这里了
-                // data: JSON.stringify(ajaxPostData),
-                // dataType:"json",
-                data: {},
-                jsonp: "callback",
-                jsonpCallback:"success",
-                dataType: 'jsonp',
-                // crossDomain: true,
-                success: function(data) {
-                    console.log(data);
-                },
-                error: function(data){
-                    console.log('error');
-                } 
-            });
+            // axios.get('/user?ID=12345')
+            // .then(function (response) {
+            //     console.log(response);
+            // })
+            // .catch(function (error) {
+            //     console.log(error);
+            // });
         }  
     }
 }

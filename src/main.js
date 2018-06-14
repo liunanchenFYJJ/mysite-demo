@@ -3,7 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
+console.log(Vue.prototype)
+console.log(axios)
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
