@@ -8,6 +8,7 @@ Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
   console.log('global route');
+  next();
 })
 
 /* eslint-disable no-new */
