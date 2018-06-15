@@ -18,10 +18,24 @@ export default {
     components: { StickyFooter, CusNav, Carousel },
     methods: {
         getreq: function() {
-            $.get('http://localhost:3000', {}, function(data, textStatus) {
-                console.log(data);
-                console.log(textStatus);
-            }, 'json');
+            // ajax async request            
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                        console.log(xhr.responseText);
+                    } else {
+                        console.log('request was unsuccessful' + xhr.status);
+                    }
+                }
+            }
+            xhr.open('get', 'http://localhost:8080', true);
+            xhr.send(null);
+
+            // $.get('http://localhost:8080', {}, function(data, textStatus) {
+            //     console.log(data);
+            //     console.log(textStatus);
+            // });
             // $.ajax({
             //     url: 'http://localhost:3000',
             //     type: 'GET',
