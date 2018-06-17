@@ -5,6 +5,7 @@
         <router-view />
         <router-view name="custom"/>
         <button style="marginTop: 100px" @click="getreq">get</button>
+        <button style="marginTop: 100px" @click="websocket">ws</button>
         <Sticky-footer />                   
     </div>
 </template>
@@ -29,7 +30,12 @@ export default {
                     }
                 }
             }
-            xhr.open('get', 'http://localhost:8080', true);
+            var url = 'http://localhost:3000';
+            // url = this.addUrlParam(url, 'name', 'json');
+            xhr.open('get', url, true);
+            // 设置请求头信息request headers
+            // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            // xhr.overrideMimeType('text/xml');
             xhr.send(null);
 
             // $.get('http://localhost:8080', {}, function(data, textStatus) {
@@ -60,7 +66,18 @@ export default {
             // .catch(function (error) {
             //     console.log(error);
             // });
-        }  
+        },
+        addUrlParam: function (url, name, value) {
+            url += (url.indexOf('?') == -1 ? '?' : '&');
+            url += encodeURIComponent(name) + '=' + encodeURIComponent(value);
+            return url;
+        },
+        websocket: function () {
+            var socket = new WebSocket('wss://echo.websocket.org');
+            socket.open = function () {
+                console.log('connection opened');                
+            };
+        }
     }
 }
 </script>
