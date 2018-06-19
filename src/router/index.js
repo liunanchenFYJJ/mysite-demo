@@ -7,6 +7,7 @@ import Notfound from '@/views/Notfound'
 import Aboutme from '@/views/Aboutme'
 import Address from '@/views/Address'
 import User from '@/views/User'
+import Login from '@/views/Login' // 登陆页面
 
 Vue.use(Router)
 
@@ -69,9 +70,13 @@ export default new Router({
       ]
     },
     {
+      path: '/login',
+      component: Login
+    },
+    {
       path: '*',
       // name: 'Notfound',
       component: Notfound
-    },
+    }
   ]
 })

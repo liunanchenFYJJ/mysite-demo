@@ -34,15 +34,16 @@
                         <button type="submit" class="btn btn-default">Submit</button>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Link</a></li>
+                        <li class=“login”><a href="/login">登陆</a><a href="registe">注册</a></li>                        
+                        <!-- 如果用户登陆，才显示                         -->
                         <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">当前用户 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
+                            <li><a href="#">用户信息</a></li>
                             <li><a href="#">Another action</a></li>
                             <li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li><a href="#">退出登陆</a></li>
                         </ul>
                         </li>
                     </ul>
@@ -57,4 +58,10 @@ export default {
     components: { CusHeader }
 }
 </script>
+<style scoped>
+li > a {
+    display:inline-block
+}
+</style>
+
 

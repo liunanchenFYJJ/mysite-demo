@@ -30,7 +30,7 @@ export default {
                     }
                 }
             }
-            var url = 'http://localhost:3000';
+            var url = 'http://localhost:3000/page/404';
             // url = this.addUrlParam(url, 'name', 'json');
             xhr.open('get', url, true);
             // 设置请求头信息request headers
