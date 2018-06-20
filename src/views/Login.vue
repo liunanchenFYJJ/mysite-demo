@@ -5,12 +5,12 @@
                 <div class="form-group">
                     <label for="email">邮箱</label>
                     <input type="email" class="form-control" v-model="email" @change="validateEmail" placeholder="you@example.com">
-                    <Cus-alert v-bind:show="ok">Enter a valid email address</Cus-alert>
+                    <cus-alert v-bind:show="ok">Enter a valid email address</cus-alert>
                 </div>
                 <div class="form-group">
                     <label for="password">密码</label>
                     <input type="password" class="form-control" v-model="password" @change="validatePassword" placeholder="password">
-                    <Cus-alert v-bind:show="ok1">密码错误</Cus-alert>
+                    <cus-alert v-bind:show="ok1">密码错误</cus-alert>
                 </div>
                 <div class="checkbox">
                     <label>
@@ -23,7 +23,7 @@
     </div>
 </template>
 <script>
-import CusAlert from '@/components/Cus-alert'
+import CusAlert from '@/components/cus-alert'
 export default {
     name: 'Login',
     components: { CusAlert },
