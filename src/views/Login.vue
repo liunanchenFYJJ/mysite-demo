@@ -4,12 +4,12 @@
             <form>
                 <div class="form-group">
                     <label for="email">邮箱</label>
-                    <input type="email" class="form-control" v-model="email" @change="validateEmail" placeholder="you@example.com">
+                    <input id="email" type="email" class="form-control" v-model="email" @change="validateEmail" placeholder="you@example.com">
                     <cus-alert v-bind:show="ok">Enter a valid email address</cus-alert>
                 </div>
                 <div class="form-group">
                     <label for="password">密码</label>
-                    <input type="password" class="form-control" v-model="password" @change="validatePassword" placeholder="password">
+                    <input id="password" type="password" class="form-control" v-model="password" @change="validatePassword" placeholder="password">
                     <cus-alert v-bind:show="ok1">密码错误</cus-alert>
                 </div>
                 <div class="checkbox">
@@ -29,9 +29,9 @@ export default {
     components: { CusAlert },
     data: function () {
         return {
-            email: 'example.com',
-            password: '123456',
-            remeberMe: true,
+            email: '',
+            password: '',
+            remeberMe: false,
             ok: false,
             ok1: false,
         }
@@ -47,21 +47,36 @@ export default {
     methods: {
         submit: function (e) {
             e.preventDefault();
+            $('#email').trigger('focus');
+            $('#password').trigger('focus');
+            
+            
+            if (true) {
+                return;
+            }
+            $.post('/', {username: this.username, password: this.password}, function (data) {
+                console.log(data);
+            })
+            // $('#submit').trigger('click');
+            // var aa = $('#email');
             console.log('submit');
+            if (this.remeberMe == true) {
+                
+            }
         },
         validateEmail: function () {
             var reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
             if (reg.test(this.email)) {
-                console.log('success');
+                this.ok = false;                
             } else {
-                this.ok = true;               
+                this.ok = true;
             }
         },
         validatePassword: function () {
             if (this.password.length >= 6) {
-                console.log('success');
+                this.ok1 = false; 
             } else {
-                this.ok1 = true;                
+                this.ok1 = true;   
             }
         }
     }
