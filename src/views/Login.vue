@@ -1,10 +1,11 @@
 <template>
     <div class="row jumbotron">
         <div class="container col-md-4 col-xs-6 col-md-offset-4 col-xs-offset-3">
+            <cus-header />
             <form>
                 <div class="form-group">
                     <label for="email">邮箱</label>
-                    <input id="email" type="email" class="form-control" v-model="email" @blur="validateEmail" placeholder="you@example.com">
+                    <input id="email" type="email" class="form-control" v-model="email" @blur="validateEmail" placeholder="you@example.com" autofocus>
                     <cus-alert v-bind:show="ok">Enter a valid email address</cus-alert>
                 </div>
                 <div class="form-group">
@@ -14,7 +15,10 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                    <input type="checkbox" v-model="remeberMe">记住我
+                        <input type="checkbox" v-model="remeberMe">记住我
+                    </label>
+                    <label>
+                        <a>忘记密码?</a>
                     </label>
                 </div>
                 <button type="submit" class="btn btn-info" @click="submit">提交</button>
@@ -24,9 +28,10 @@
 </template>
 <script>
 import CusAlert from '@/components/cus-alert'
+import CusHeader from '@/components/Cus-header'
 export default {
     name: 'Login',
-    components: { CusAlert },
+    components: { CusAlert, CusHeader },
     data: function () {
         return {
             email: '',
@@ -81,7 +86,7 @@ export default {
 </script>
 
 <style scoped>
-#email :focus{
+#email:focus, #password:focus{
     background-color: aqua;
 }
 </style>

@@ -8,6 +8,8 @@ import Aboutme from '@/views/Aboutme'
 import Address from '@/views/Address'
 import User from '@/views/User'
 import Login from '@/views/Login' // 登陆页面
+import Registe from '@/views/Registe' // 注册页面
+import Success from '@/views/Success' // 注册成功页面
 
 Vue.use(Router)
 
@@ -72,6 +74,14 @@ export default new Router({
     {
       path: '/login',
       component: Login
+    },    
+    {
+      path: '/registe',
+      component: Registe
+    },
+    {
+      path: '/success',
+      component: Success
     },
     {
       path: '*',

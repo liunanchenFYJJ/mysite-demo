@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a class="blog-header-logo text-dark" href="#">LiunanChen's Blog</a>
+        <a class="blog-header-logo text-dark" href="/">LiunanChen's Blog</a>
     </div>
 </template>
 <style scoped>
