@@ -8,7 +8,7 @@
 export default {
     data: function () {
         return {
-            time: 10
+            time: 0
         }
     },
     created: function () {
@@ -16,13 +16,17 @@ export default {
     },
     methods: {
         countdown: function () {
-            var timer = setInterval(function () {
-                this.time -= 1;
-                if (this.time == 0) {
-                    clearInterval(timer);                    
+            var self = this;            
+            const Time = 5; //跳转登陆页时间
+            self.time = Time;
+            var myVar = setInterval(function () {
+                // console.log(self.time);
+                self.time -= 1;
+                if (self.time == 0) {
+                    clearInterval(myVar);
+                    location.href = '/login';
                 }
             }, 1000);
-            console.log('countdown');
         }
     }
 }
