@@ -4,12 +4,12 @@
             <form>
                 <div class="form-group">
                     <label for="email">邮箱</label>
-                    <input id="email" type="email" class="form-control" v-model="email" @change="validateEmail" placeholder="you@example.com">
+                    <input id="email" type="email" class="form-control" v-model="email" @blur="validateEmail" placeholder="you@example.com">
                     <cus-alert v-bind:show="ok">Enter a valid email address</cus-alert>
                 </div>
                 <div class="form-group">
                     <label for="password">密码</label>
-                    <input id="password" type="password" class="form-control" v-model="password" @change="validatePassword" placeholder="password">
+                    <input id="password" type="password" class="form-control" v-model="password" @blur="validatePassword" placeholder="password">
                     <cus-alert v-bind:show="ok1">密码错误</cus-alert>
                 </div>
                 <div class="checkbox">
@@ -36,30 +36,27 @@ export default {
             ok1: false,
         }
     },
-    // props: {
-    //     email: Number,
-    //     password: {
-    //         validator: function (value) {
-    //             return value > 100;
-    //         }
-    //     }
-    // },
     methods: {
         submit: function (e) {
             e.preventDefault();
-            $('#email').trigger('focus');
-            $('#password').trigger('focus');
-            
-            
-            if (true) {
-                return;
+            // 模拟操作
+            // $('#email').trigger('blur');
+            // $('#password').trigger('blur');
+            $('#email').blur(this.validateEmail());
+            $('#password').blur(this.validatePassword());
+
+            if (false) {
+                alert('submit!');
+            } else {
+                console.log('error submit!!');
+                return false;
             }
+
             $.post('/', {username: this.username, password: this.password}, function (data) {
                 console.log(data);
             })
-            // $('#submit').trigger('click');
-            // var aa = $('#email');
-            console.log('submit');
+
+            // 如果记住我，存入cookie
             if (this.remeberMe == true) {
                 
             }
@@ -84,6 +81,8 @@ export default {
 </script>
 
 <style scoped>
-
+#email :focus{
+    background-color: aqua;
+}
 </style>
 
