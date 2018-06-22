@@ -4,8 +4,8 @@ import Router from 'vue-router'
 import Layout from '@/views/Layout' //Layout 中写布局
 const Home = () => import('@/views/Home') // 懒加载
 import Blog from '@/views/Blog'
-import Notfound from '@/views/Notfound'
 import Aboutme from '@/views/Aboutme'
+import Notfound from '@/views/Notfound'
 import Address from '@/views/Address'
 import User from '@/views/User'
 import Login from '@/views/Login' // 登陆页面
@@ -23,26 +23,30 @@ export default new Router({
       path: '/layout',
       name: 'Layout',
       component: Layout,
-      // redirect: '/layout/home',
+      redirect: '/layout/home',
       children: [
         {
           path: 'home',
           name: 'Home',
           component: Home,
-          alias: 'about'  //路由别名
+          // alias: 'about'  //路由别名
         },
         {
           path: 'blog',
           component: Blog,
         },
         {
-          path: 'address',
-          name: 'Address',
-          components: {
-            default: Address,
-            custom: Aboutme
-          }
-        }
+          path: 'about',
+          component: Aboutme,
+        },
+        // {
+        //   path: 'address',
+        //   name: 'Address',
+        //   components: {
+        //     default: Address,
+        //     custom: Aboutme
+        //   }
+        // }
       ]
     },
     // {
