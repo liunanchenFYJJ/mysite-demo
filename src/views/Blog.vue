@@ -1,11 +1,11 @@
 <template>
-    <div class="about">
-        Aboutme
-        <router-view></router-view>        
+    <div class="blog">
+        Blog
     </div>
 </template>
 <style scoped>
-.about {
+.blog {
+    /* width: 100%; */
     height: inherit;
     padding: 60px 0 60px 0;
 }

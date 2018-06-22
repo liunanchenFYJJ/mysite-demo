@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import Home from '@/views/Home'
-const Home = () => import('@/views/Home') // 懒加载
 import Layout from '@/views/Layout' //Layout 中写布局
-import Notfound from '@/views/Notfound'
+const Home = () => import('@/views/Home') // 懒加载
+import Blog from '@/views/Blog'
 import Aboutme from '@/views/Aboutme'
+import Notfound from '@/views/Notfound'
 import Address from '@/views/Address'
 import User from '@/views/User'
 import Login from '@/views/Login' // 登陆页面
@@ -22,55 +23,63 @@ export default new Router({
       path: '/layout',
       name: 'Layout',
       component: Layout,
-      // redirect: '/layout/home',
+      redirect: '/layout/home',
       children: [
         {
           path: 'home',
           name: 'Home',
           component: Home,
-          alias: 'about'  //路由别名
+          // alias: 'about'  //路由别名
         },
         {
-          path: 'address',
-          name: 'Address',
-          components: {
-            default: Address,
-            custom: Aboutme
-          }
-        }
-      ]
-    },
-    {
-      path: '/user/:name',
-      component: User,
-      children: [
-        {
-          path: '',
-          component: Address
+          path: 'blog',
+          component: Blog,
         },
         {
-          path: 'address',
-          name: 'address',  // 命名路由，使编程导航更加方便(父级路由中则不需要)
-          component: Address
-        }
-      ]
-    },
-    {
-      path: '/about',
-      // name: 'Aboutme',
-      component: Aboutme,
-      children: [
+          path: 'about',
+          component: Aboutme,
+        },
         // {
-        //   path: '',  // 这样可以单独访问
-        //   component: Aboutme
-        // },
-        {
-          path: 'address',
-          // name: 'Address',
-          component: Address
-        }
+        //   path: 'address',
+        //   name: 'Address',
+        //   components: {
+        //     default: Address,
+        //     custom: Aboutme
+        //   }
+        // }
       ]
     },
+    // {
+    //   path: '/user/:name',
+    //   component: User,
+    //   children: [
+    //     {
+    //       path: '',
+    //       component: Address
+    //     },
+    //     {
+    //       path: 'address',
+    //       name: 'address',  // 命名路由，使编程导航更加方便(父级路由中则不需要)
+    //       component: Address
+    //     }
+    //   ]
+    // },
+    // {
+    //   path: '/about',
+    //   // name: 'Aboutme',
+    //   component: Aboutme,
+    //   children: [
+    //     // {
+    //     //   path: '',  // 这样可以单独访问
+    //     //   component: Aboutme
+    //     // },
+    //     {
+    //       path: 'address',
+    //       // name: 'Address',
+    //       component: Address
+    //     }
+    //   ]
+    // },
     {
       path: '/login',
       component: Login
