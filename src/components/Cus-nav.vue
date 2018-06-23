@@ -9,7 +9,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><Cus-header /></a>
+                <a class="navbar-brand" href="#"><cus-header /></a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -56,6 +56,7 @@ export default {
 }
 </script>
 <style scoped>
+/* a标签点击前后样式？ */
 li > a {
     display:inline-block;
 }
