@@ -1,6 +1,8 @@
 <template>
     <div>
         home
+        <input type="text" v-model="a">
+        <input type="text" v-model="b.name">
         <button style="marginTop: 100px" @click="getreq">get</button>
         <button style="marginTop: 100px" @click="websocket">ws</button>
         <!-- <main role="main" class="container">
@@ -14,6 +16,27 @@
 </template>
 <script>
 export default {
+    data: function () {
+        return {
+            a: 1,
+            b: {
+                name: 'json'
+            }
+        }
+    },
+    watch: {
+        a(value, oldvalue) {
+            console.log('A:' + value + oldvalue);
+        },
+        newb(value, oldvalue) {
+            console.log('c:' + value + oldvalue);
+        }
+    },
+    computed: {
+        newb() {
+            return this.b.name;
+        }
+    },
     methods: {
         getreq: function() {
             // ajax async request            

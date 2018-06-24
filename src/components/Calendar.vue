@@ -6,8 +6,8 @@
                 <li class="next" @click="changeMonth">❯</li>
                 <li style="text-align:center">{{month}}<br>
                     <span style="font-size:18px">{{year}}</span>
-                    <span v-if="leapYear">闰年</span>
-                    <span v-else>平年</span>
+                    <span style="font-size:12px" v-if="leapYear">闰年</span>
+                    <span style="font-size:12px" v-else>平年</span>
                 </li>
             </ul>
         </div>
@@ -39,8 +39,47 @@ export default {
             leapYear: '',   //判断闰年
             month: '',
             monthDays: '',  //当月的天数
-            date: '',
-            firstday: ''
+            date: '',       //今天的日期
+            firstday: ''    //每月的第一天周几
+        }
+    },
+    watch: {
+        year: function (ny, oy) {
+            this.year = ny;
+            if (this.year % 400 == 0 || (this.year % 4 == 0 && this.year % 100 != 0)) {
+                this.leapYear = true;
+            } else {
+                this.leapYear = false;
+            }
+            // this.leapYear();
+        },
+        month: function (nm, om) {
+            this.month = nm;
+            this.getWeek(this.year, this.month, 1);     //判断每月1号星期几
+            switch (this.month) {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    return this.monthDays = 31;
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    return this.monthDays = 30;
+                    break;
+                default:
+                    if (this.leapYear == true) {
+                        return this.monthDays = 29;                    
+                    } else {
+                        return this.monthDays = 28;                    
+                    }
+                    break;
+            }
         }
     },
     created: function () {
@@ -50,19 +89,21 @@ export default {
         this.getWeek(this.year, this.month, 1);     //判断每月1号星期几
     },
     methods: {
+        isLeapyear: function () {
+            if (this.year % 400 == 0 || (this.year % 4 == 0 && this.year % 100 != 0)) {
+                return this.leapYear = true
+            } else {
+                return this.leapYear = false
+            }
+        },
         getYear: function () {
             var date = new Date();
             this.year = date.getFullYear();
-            if (this.year % 400 == 0 || (this.year % 4 == 0 && this.year % 100 != 0)) {
-                this.leapYear = true
-            } else {
-                this.leapYear = false
-            }
+            this.isLeapyear();
         },
-        getMonth: function (month) {
+        getMonth: function () {
             var date = new Date();
-            this.month = (date.getMonth() + 1) || month;
-            console.log(month);
+            this.month = (date.getMonth() + 1);
             switch (this.month) {
                 case 1:
                 case 3:
