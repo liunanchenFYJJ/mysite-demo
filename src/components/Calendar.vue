@@ -2,8 +2,8 @@
     <div class="calendar">
         <div class="month">      
             <ul>
-                <li class="prev" @click="changeMonth">❮</li>
-                <li class="next" @click="changeMonth">❯</li>
+                <li class="prev glyphicon glyphicon-menu-left" @click="changeMonth"></li>
+                <li class="next glyphicon glyphicon-menu-right" @click="changeMonth"></li>
                 <li style="text-align:center">{{month}}<br>
                     <span style="font-size:18px">{{year}}</span>
                     <span style="font-size:12px" v-if="leapYear">闰年</span>
@@ -29,6 +29,7 @@
                 <span v-else>{{i}}</span>
             </li>
         </ul>
+        {{selectedArr}}
     </div>
 </template>
 <script>
@@ -40,7 +41,8 @@ export default {
             month: '',
             monthDays: '',  //当月的天数
             date: '',       //今天的日期
-            firstday: ''    //每月的第一天周几
+            firstday: '',   //每月的第一天周几
+            selectedArr: []
         }
     },
     watch: {
@@ -89,7 +91,7 @@ export default {
         this.getWeek(this.year, this.month, 1);     //判断每月1号星期几
     },
     methods: {
-        isLeapyear: function () {
+        isLeapyear: () => {
             if (this.year % 400 == 0 || (this.year % 4 == 0 && this.year % 100 != 0)) {
                 return this.leapYear = true
             } else {
@@ -137,10 +139,12 @@ export default {
             var firstday = new Date(year, month - 1, date);
             this.firstday = firstday.getDay();
         },
-        selectDate: function (e) {
+        selectDate: function (e) {      //日历点击事件
             if (!e.target.className) {
                 e.target.className = 'active1';
             }
+            console.log(e.target.outerText);
+            this.selectedArr.push(e.target.outerText);
         },
         changeMonth: function (e) {
             if (e.target.className == 'prev') {
@@ -221,9 +225,9 @@ ul {list-style-type: none;}
 .days li {
     list-style-type: none;
     display: inline-block;
-    width: 13.2%;
+    width: 14%;
     text-align: center;
-    margin-bottom: 5px;
+    margin-bottom: 25px;
     font-size:12px;
     color: #777;
 }
@@ -235,7 +239,7 @@ ul {list-style-type: none;}
 }
 .active1 {
     padding: 5px;
-    background:red;
+    background: mediumspringgreen;
     color: white !important
 }
 /* Add media queries for smaller screens */

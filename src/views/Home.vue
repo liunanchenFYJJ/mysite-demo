@@ -1,6 +1,16 @@
 <template>
     <div>
         home
+        <test v-bind:todos="todos">
+            <!-- 将 `slotProps` 定义为插槽作用域的名字 -->
+            <template slot-scope="slotProps">
+                <!-- 为待办项自定义一个模板，-->
+                <!-- 通过 `slotProps` 定制每个待办项。-->
+                <span v-if="slotProps.todo.isComplete">✓</span>
+                {{ slotProps.todo.text }}
+            </template>
+        </test>
+
         <input type="text" v-model="a">
         <input type="text" v-model="b.name">
         <button style="marginTop: 100px" @click="getreq">get</button>
@@ -15,13 +25,21 @@
     </div>
 </template>
 <script>
+import test from "@/components/test";
 export default {
+    components: {
+        test
+    },
     data: function () {
         return {
             a: 1,
             b: {
                 name: 'json'
-            }
+            },
+            todos: [
+                {id: 1, text: 'jj', isComplete: true},
+                {id: 2, text: 'json', isComplete: false},
+            ]
         }
     },
     watch: {
