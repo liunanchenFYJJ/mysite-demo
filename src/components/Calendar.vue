@@ -91,6 +91,9 @@ export default {
         this.getDay();      //获取今天日期
         this.getWeek(this.year, this.month, 1);     //判断每月1号星期几
     },
+    // beforeDestroy: function () {
+    //     Bus.$emit('msg', this.selectedArr);
+    // },
     methods: {
         isLeapyear: () => {
             if (this.year % 400 == 0 || (this.year % 4 == 0 && this.year % 100 != 0)) {

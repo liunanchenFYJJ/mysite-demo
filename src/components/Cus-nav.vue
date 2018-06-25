@@ -14,8 +14,8 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/layout/home">home</a></li>
+                <ul class="nav navbar-nav" @click="changeStyle" id="nav">
+                    <li><a href="/layout/home">home</a></li>
                     <li><a href="/layout/blog">blog</a></li>
                     <li><a href="/layout/about">about</a></li>
                     <li class="dropdown">
@@ -52,7 +52,25 @@
 <script>
 import CusHeader from '@/components/Cus-header'
 export default {
-    components: { CusHeader }
+    components: { CusHeader },
+    data: function () {
+        return {
+            title: ''
+        }
+    },
+    mounted: function () {
+        this.title = sessionStorage.getItem('navActive');
+        $('#nav li').removeClass();
+        $('#nav li:contains("'+ this.title +'")').addClass('active');
+    },
+    methods: {
+        changeStyle: function (e) {
+            this.title = e.target.innerText;
+            $('#nav li').removeClass();
+            $('#nav li:contains("'+ this.title +'")').addClass('active');
+            sessionStorage.setItem('navActive', this.title);    //存入sessionStorage，每次刷新可以保持上一次的选择
+        }
+    }
 }
 </script>
 <style scoped>
@@ -63,6 +81,15 @@ li > a {
 nav {
     margin-bottom: 0px;
 }
+.nav > li:hover {
+    background-color: teal;
+}
+.nav > li > a:hover {
+    color: white;
+}
+/* .navActive {
+    background-color: springgreen;
+} */
 </style>
 
 

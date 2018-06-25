@@ -37,7 +37,15 @@ export default {
             var self = this;            
             console.log(self.selectmsg);
         }
-    }
+    },
+    beforeCreate: function(){console.log('beforeCreate')},
+    created: function(){console.log('Create')},
+    beforeMount: function(){console.log('beforeMount')},
+    mounted: function(){console.log('Mount')},
+    beforeUpdate: function(){console.log('beforeUpdate')},
+    updated: function(){console.log('Update')},
+    beforeDestroy: function(){console.log('beforeDestroy')},
+    destroyed: function(){console.log('Destroy')}
 }
 </script>
 
