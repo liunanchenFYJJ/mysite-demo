@@ -33,6 +33,7 @@
     </div>
 </template>
 <script>
+import Bus from '@/bus'
 export default {
     data: function () {
         return {
@@ -143,8 +144,10 @@ export default {
             if (!e.target.className) {
                 e.target.className = 'active1';
             }
-            console.log(e.target.outerText);
-            this.selectedArr.push(e.target.outerText);
+            if (Array.indexOf(this.selectedArr, e.target.outerText) == -1) {
+                this.selectedArr.push(e.target.outerText);
+            }
+            Bus.$emit('msg', this.selectedArr);
         },
         changeMonth: function (e) {
             if (e.target.className == 'prev') {
@@ -243,7 +246,7 @@ ul {list-style-type: none;}
     color: white !important
 }
 /* Add media queries for smaller screens */
-@media screen and (max-width:720px) {
+/* @media screen and (max-width:720px) {
     .weekdays li, .days li {width: 13.1%;}
 }
 
@@ -254,6 +257,6 @@ ul {list-style-type: none;}
 
 @media screen and (max-width: 290px) {
     .weekdays li, .days li {width: 12.2%;}
-}
+} */
 </style>
 

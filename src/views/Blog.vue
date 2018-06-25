@@ -1,8 +1,9 @@
 <template>
     <div class="blog row">
-        <div class="col-md-7 col-md-offset-1">main</div>
-        <div class="col-md-3">
+        <div class="col-md-10">main</div>
+        <div class="col-md-2">
             <calendar />
+        {{selectmsg}}
             <i class="glyphicon glyphicon-search"></i>
             <a @click="search" href="/tonowhere" class="h4">search for blog</a>
         </div>
@@ -10,17 +11,31 @@
 </template>
 <script>
 import Calendar from '@/components/Calendar'
+import Bus from '@/bus'
 export default {
     components: { Calendar },
     data: function () {
         return {
-            
+            selectmsg: ['ads']
         }
     },
+    mounted: function () {
+        Bus.$on('msg', function (data) {
+            var self = this;
+            self.selectmsg = data;
+            console.log(self.selectmsg);
+        });
+    },
+    // watch: {
+    //     selectmsg: function (nv, ov) {
+    //         console.log(nv)
+    //     }
+    // },
     methods: {
         search: function (e) {
             e.preventDefault();
-            console.log('search');
+            var self = this;            
+            console.log(self.selectmsg);
         }
     }
 }
@@ -28,7 +43,7 @@ export default {
 
 <style scoped>
 .blog {
-    /* width: 100%; */
+    width: 100%;
     height: inherit;
     padding: 60px 0 60px 0;
 }
