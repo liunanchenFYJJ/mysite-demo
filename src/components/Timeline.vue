@@ -16,10 +16,10 @@ export default {
                 // {time: new Date(1999, 4,19), episode: 1, name: 'The Phantom Menace'},
                 // {time: new Date(2002, 4,16), episode: 2, name: 'Attack of the Clones'},
                 // {time: new Date(2005, 4,19), episode: 3, name: 'Revenge of the Sith'},
-                {time: new Date(2014,11,18), episode: 7, name: 'The Force Awakens'},
-                {time: new Date(2015,1,18), episode: 7, name: 'The Force Awakens'},
-                {time: new Date(2015,6,18), episode: 7, name: 'The Force Awakens'},
-                {time: new Date(2015,11,19), episode: 7, name: 'The Force Awakens'},
+                {time: new Date(2018,6,11), episode: 1, name: 'The Force Awakens1'},
+                {time: new Date(2018,6,20), episode: 2, name: 'The Force Awakens2'},
+                {time: new Date(2018,6,16), episode: 3, name: 'The Force Awakens3'},
+                {time: new Date(2018,6,19), episode: 4, name: 'The Force Awakens4'},
             ],
             chart: {}
         }

@@ -1,8 +1,11 @@
 <template>
     <div class="blog row">
-        <div class="col-md-10">main
+        <div class="col-md-4">
             <timeline />
         </div>
+        <div class="col-md-6" style="overflow:scroll">
+            <cus-details v-for="(item,index) in data" :obj="item" :key="index"/>
+        </div>        
         <div class="col-md-2">
             <calendar />
         {{selectmsg}}
@@ -14,12 +17,26 @@
 <script>
 import Calendar from '@/components/Calendar'
 import Timeline from '@/components/Timeline'
+import CusDetails from '@/components/Cus-details'
 import Bus from '@/bus'
 export default {
-    components: { Calendar, Timeline },
+    components: { Calendar, Timeline, CusDetails },
     data: function () {
         return {
-            selectmsg: ['ads']
+            selectmsg: ['ads'],
+            demo: {time: new Date(2018,6,11), episode: 1, name: 'The Force Awakens1'},
+            data: [
+                // {time: new Date(1977, 4,25), episode: 4, name: 'A New Hope'},
+                // {time: new Date(1980, 4,17), episode: 5, name: 'The Empire Strikes Back'},
+                // {time: new Date(1984, 4,25), episode: 6, name: 'Return of the Jedi'},
+                {time: new Date(1999, 4,19), episode: 1, name: 'The Phantom Menace'},
+                {time: new Date(2002, 4,16), episode: 2, name: 'Attack of the Clones'},
+                {time: new Date(2005, 4,19), episode: 3, name: 'Revenge of the Sith'},
+                {time: new Date(2018,6,11), episode: 1, name: 'The Force Awakens1'},
+                {time: new Date(2018,6,20), episode: 2, name: 'The Force Awakens2'},
+                {time: new Date(2018,6,16), episode: 3, name: 'The Force Awakens3'},
+                {time: new Date(2018,6,19), episode: 4, name: 'The Force Awakens4'},
+            ]
         }
     },
     mounted: function () {
