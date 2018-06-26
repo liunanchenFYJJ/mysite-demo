@@ -231,7 +231,7 @@ ul {list-style-type: none;}
 .days li {
     list-style-type: none;
     display: inline-block;
-    width: 14%;
+    width: 13.8%;
     text-align: center;
     margin-bottom: 25px;
     font-size:12px;
