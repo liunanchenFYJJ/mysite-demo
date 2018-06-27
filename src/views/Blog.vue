@@ -3,7 +3,7 @@
         <div class="col-md-4">
             <timeline />
         </div>
-        <div id="scroll" @scroll="scrollTop" class="col-md-6" style="overflow:auto">
+        <div id="scroll" @scroll="scrollToTop" class="col-md-6" style="overflow:auto">
             <cus-details  v-for="(item,index) in data" :obj="item" :key="index"/>
             <a v-show="show" id="top" @click="backtop"><span class="glyphicon glyphicon-arrow-up"></span></a>
         </div>        
@@ -62,7 +62,7 @@ export default {
             var self = this;            
             console.log(self.selectmsg);
         },
-        scrollTop: function () {    // 是否显示回到顶部箭头
+        scrollToTop: function () {    // 是否显示回到顶部箭头
             var t = document.getElementById('scroll').scrollTop;
             // console.log(t);
             if (t > 50) {
@@ -72,14 +72,8 @@ export default {
             }
         },
         backtop: function () {
-            // var top = document.getElementById('scroll').scrollTop;
-            // console.log(top);
-            // if (top > 0) {
-            //     this.show = false;
-            // } else {
-            //     this.show = true;
-            // }
-            document.getElementById('scroll').scrollTop = 0;    // 回到顶部
+            // document.getElementById('scroll').scrollTop = 0;    // js 回到顶部
+            $('#scroll').scrollTop(0);                             // jQuery写法
         }
     },
     // beforeCreate: function(){console.log('beforeCreate')},
