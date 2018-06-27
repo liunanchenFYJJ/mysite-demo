@@ -3,8 +3,9 @@
         <div class="col-md-4">
             <timeline />
         </div>
-        <div class="col-md-6" style="overflow:scroll">
-            <cus-details v-for="(item,index) in data" :obj="item" :key="index"/>
+        <div id="scroll" @scroll="scrollTop" class="col-md-6" style="overflow:auto">
+            <cus-details  v-for="(item,index) in data" :obj="item" :key="index"/>
+            <a v-show="show" id="top" @click="backtop"><span class="glyphicon glyphicon-arrow-up"></span></a>
         </div>        
         <div class="col-md-2">
             <calendar />
@@ -24,11 +25,15 @@ export default {
     data: function () {
         return {
             selectmsg: ['ads'],
+            show: false,
             demo: {time: new Date(2018,6,11), episode: 1, name: 'The Force Awakens1'},
             data: [
                 // {time: new Date(1977, 4,25), episode: 4, name: 'A New Hope'},
                 // {time: new Date(1980, 4,17), episode: 5, name: 'The Empire Strikes Back'},
                 // {time: new Date(1984, 4,25), episode: 6, name: 'Return of the Jedi'},
+                // {time: new Date(1999, 4,19), episode: 1, name: 'The Phantom Menace'},{time: new Date(1977, 4,25), episode: 4, name: 'A New Hope'},
+                {time: new Date(1980, 4,17), episode: 5, name: 'The Empire Strikes Back'},
+                {time: new Date(1984, 4,25), episode: 6, name: 'Return of the Jedi'},
                 {time: new Date(1999, 4,19), episode: 1, name: 'The Phantom Menace'},
                 {time: new Date(2002, 4,16), episode: 2, name: 'Attack of the Clones'},
                 {time: new Date(2005, 4,19), episode: 3, name: 'Revenge of the Sith'},
@@ -56,6 +61,25 @@ export default {
             e.preventDefault();
             var self = this;            
             console.log(self.selectmsg);
+        },
+        scrollTop: function () {    // 是否显示回到顶部箭头
+            var t = document.getElementById('scroll').scrollTop;
+            // console.log(t);
+            if (t > 50) {
+                this.show = true;
+            } else {
+                this.show = false;
+            }
+        },
+        backtop: function () {
+            // var top = document.getElementById('scroll').scrollTop;
+            // console.log(top);
+            // if (top > 0) {
+            //     this.show = false;
+            // } else {
+            //     this.show = true;
+            // }
+            document.getElementById('scroll').scrollTop = 0;    // 回到顶部
         }
     },
     // beforeCreate: function(){console.log('beforeCreate')},
@@ -93,6 +117,18 @@ a:hover {
 }
 a:active {
     color: aqua;
+}
+#top {
+    position: fixed;
+    bottom: 80px;
+    right: 400px;
+    z-index: 100;
+    /* overflow:hidden; */
+    border:1px solid #c00;
+    background: darkgrey;
+    visibility: visible;
+    opacity: 1;
+    cursor: pointer;
 }
 </style>
 
