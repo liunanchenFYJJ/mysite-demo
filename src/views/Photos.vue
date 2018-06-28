@@ -1,26 +1,39 @@
 <template>
     <div id="photos" @wheel="picScroll">
-        <!-- <div v-for="(i, index) in 5" :key="index" class="flow"></div> -->
-        <div class="flow"></div>
+        <div v-for="(i, index) in 4" :key="index" class="flow"></div>
     </div>
 </template>
 <script>
 export default {
     data: function () {
         return {
-            flowlist: null
+            flowlist: null,
+            pageHeight: 0,      // 监听，根据pageHeight进行加载
+            height: 0,          // 每列的高度
+            heightAll: []       // 所有的高度
         }
     },
     mounted: function () {
         this.flowlist = document.getElementsByClassName('flow');
-        this.addItems(this.flowlist, 1);    // 插入照片
+        this.addItems(this.flowlist, 4);    // 插入照片
+        this.getHeight();
+    },
+    watch: {
+        pageHeight: function (np, op) {
+            if (np - op > 600) {
+                this.addItems(this.flowlist, 1);            
+            } else {
+                this.addItems(this.flowlist, 1);                            
+            }
+        }
     },
     methods: {
 		addItems: function (elements, times) {
 			for (var j = 0; j < times; j++) {
 				for (var i = 0; i < elements.length; i++) {
 					var newnode = document.createElement("div");
-					newnode.style.background = "#159";  
+                    newnode.style.background = "#159";  
+                    // newnode.style.backgroundImage = 'url("@/assets/notfound.gif")';
 	           		newnode.style.width = "90%";
 	           		newnode.style.height = this.getRandom(100, 200) + "px";
 	          		newnode.style.margin = "10px";  
@@ -39,25 +52,31 @@ export default {
         	return rand; 
         },
         picScroll: function (e) {    // 监听滚轮滚动事件，区别onscroll
-            console.log(e);
-            // 被卷去的高度	
-            // var scrollTop = document.getElementById('photos').scrollTop;
-            // console.log(scrollTop);
-            // // 页面高度
-            // var pageHeight = document.documentElement.scrollHeight;
-            // // 可视区域高度 
-            // var viewHeight = screen.availHeight;
-            // console.log("被卷去的高度:" + scrollTop + " " + "页面高度:"+pageHeight + " "+"可视区域高度:" + viewHeight);
-            //当滚动到底部时 
-            // if ((scrollTop + viewHeight) > (pageHeight - 20)) { 
-            //     if(scrollTop < 4000) {//防止无限制的增长 
-            //         this.addItems(this.flowlist, 2);
-            //     } 
-            // } 
-            // this.addItems(this.flowlist, 1);            
-            // if (pageHeight > 2000) {
-            //     return;
-            // }
+            // 页面高度
+            if (e.wheelDelta < 0) {     // 只有往下滑动，才会加载新图片
+                this.pageHeight = document.documentElement.scrollHeight;
+            }
+            this.getHeight();       
+        },
+        getHeight: function () {
+            this.heightAll = [];
+            for (let i = 0; i < document.getElementsByClassName('flow').length; i++) {
+                var a  = document.getElementsByClassName('flow')[i].children;
+                this.heightAll.push(this.getSingleHeight(a));
+            }
+            console.log(this.heightAll);
+        },
+        getSingleHeight: function (element) {   //取得单一的高度
+            var heightArr = [];
+            var intheightArr = 0;         
+            for (let i = 0; i < element.length; i++) {
+                const singleElement = element[i];
+                heightArr.push(singleElement.style.height.split('px').join(''));
+            }
+            for (let j = 0; j < heightArr.length; j++) {
+                intheightArr += parseInt(heightArr[j]);
+            }
+            return intheightArr;
         }
     }
 }
