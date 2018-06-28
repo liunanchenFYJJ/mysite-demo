@@ -33,15 +33,33 @@ export default {
     methods: {
         createMap: function () {
             var map = new BMap.Map("map");    // 创建Map实例
-            map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
+            map.centerAndZoom('苏州', 15);  // 初始化地图,设置中心点坐标和地图级别
             //添加地图类型控件
-            map.addControl(new BMap.MapTypeControl({
-                mapTypes:[
-                    BMAP_NORMAL_MAP,
-                    BMAP_HYBRID_MAP
-                ]}));	  
-            map.setCurrentCity("苏州");          // 设置地图显示的城市 此项是必须设置的
+            // map.addControl(new BMap.MapTypeControl({
+            //     mapTypes:[
+            //         BMAP_NORMAL_MAP,
+            //         BMAP_HYBRID_MAP
+            //     ]
+            // }));	  
+            // map.setCurrentCity("苏州");          // 设置地图显示的城市 此项是必须设置的
             map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+            // 添加定位控件
+            var geolocationControl = new BMap.GeolocationControl();
+            geolocationControl.addEventListener("locationSuccess", function(e){
+                // 定位成功事件
+                var address = '';
+                address += e.addressComponent.province;
+                address += e.addressComponent.city;
+                address += e.addressComponent.district;
+                address += e.addressComponent.street;
+                address += e.addressComponent.streetNumber;
+                console.log("当前定位地址为：" + address);
+            });
+            geolocationControl.addEventListener("locationError",function(e){
+                // 定位失败事件
+                console.log(e.message);
+            });
+            map.addControl(geolocationControl);
         }
     }
 }
