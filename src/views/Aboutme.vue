@@ -23,17 +23,67 @@ export default {
             user: {
                 username: 'LiunanChen',
                 location: 'Suzhou Jiangsu',
-                email: 'liunan_chen@163.com'
+                email: 'liunan_chen@163.com',
+                city: ''
             }
         }
     },
     mounted: function () {
         this.createMap();
     },
+    created: function () {
+        // $.ajax({
+        //     url: 'http://api.map.baidu.com/location/ip',
+        //     type: 'GET',
+        //     data: {
+        //         ip: '114.216.24.123',
+        //         ak: 'iE6Nttmdl4TXocGQHgYh0W44aeERi4Gs',
+        //         coor: 'bd09ll'
+        //     },
+        //     dataType: 'jsonp',  // 指定服务器返回数据类型，默认callback=?
+        //     // jsonpCallback: customcallback,    // 自定义回调函数 callback=customcallback
+        //     // jsonp: 'jcallback',  // 指定参数名称 jcallback=customcallback
+        //     success: function (data) {
+        //         this.city = data.content.address_detail.city.slice(0, 2);
+        //         console.log(this.city);
+        //     }
+        // })   
+    },
     methods: {
         createMap: function () {
             var map = new BMap.Map("map");    // 创建Map实例
-            map.centerAndZoom('苏州', 15);  // 初始化地图,设置中心点坐标和地图级别
+            var mapData = {
+                ip: '114.216.24.123',
+                ak: 'iE6Nttmdl4TXocGQHgYh0W44aeERi4Gs',
+                coor: 'bd09ll'
+            }
+            // 第一种跨域方法
+            // $.get('http://api.map.baidu.com/location/ip', mapData, function(data) {
+            //     console.log(data);
+            // }, 'jsonp');
+            // function customcallback (data) {
+            //     console.log('customcallback data');
+            // }
+            // 第二种跨域方法，success 和 jsonpCallback 同时只存在一个
+            $.ajax({
+                url: 'http://api.map.baidu.com/location/ip',
+                type: 'GET',
+                data: {
+                    ip: '114.216.24.123',
+                    ak: 'iE6Nttmdl4TXocGQHgYh0W44aeERi4Gs',
+                    coor: 'bd09ll'
+                },
+                dataType: 'jsonp',  // 指定服务器返回数据类型，默认callback=?
+                // jsonpCallback: customcallback,    // 自定义回调函数 callback=customcallback
+                // jsonp: 'jcallback',  // 指定参数名称 jcallback=customcallback
+                success: function (data) {
+                    this.city = data.content.address_detail.city.slice(0, 2);
+                    console.log(this.city);
+                }
+            });
+
+            console.log(this.city);
+            map.centerAndZoom(this.city, 15);  // 初始化地图,设置中心点坐标和地图级别
             //添加地图类型控件
             // map.addControl(new BMap.MapTypeControl({
             //     mapTypes:[
