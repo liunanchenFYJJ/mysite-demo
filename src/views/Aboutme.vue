@@ -23,8 +23,7 @@ export default {
             user: {
                 username: 'LiunanChen',
                 location: 'Suzhou Jiangsu',
-                email: 'liunan_chen@163.com',
-                city: ''
+                email: 'liunan_chen@163.com'
             }
         }
     },
@@ -66,6 +65,7 @@ export default {
             // }
             // 第二种跨域方法，success 和 jsonpCallback 同时只存在一个
             $.ajax({
+                // async: false,
                 url: 'http://api.map.baidu.com/location/ip',
                 type: 'GET',
                 data: {
@@ -77,13 +77,12 @@ export default {
                 // jsonpCallback: customcallback,    // 自定义回调函数 callback=customcallback
                 // jsonp: 'jcallback',  // 指定参数名称 jcallback=customcallback
                 success: function (data) {
-                    this.city = data.content.address_detail.city.slice(0, 2);
-                    console.log(this.city);
+                    sessionStorage.city = data.content.address_detail.city.slice(0, 2);     // 把city存入sessionStorage
                 }
             });
 
-            console.log(this.city);
-            map.centerAndZoom(this.city, 15);  // 初始化地图,设置中心点坐标和地图级别
+            var city = sessionStorage.getItem('city')
+            map.centerAndZoom(city, 15);  // 初始化地图,设置中心点坐标和地图级别
             //添加地图类型控件
             // map.addControl(new BMap.MapTypeControl({
             //     mapTypes:[
@@ -91,7 +90,7 @@ export default {
             //         BMAP_HYBRID_MAP
             //     ]
             // }));	  
-            // map.setCurrentCity("苏州");          // 设置地图显示的城市 此项是必须设置的
+            // map.setCurrentCity("苏州");       // 设置地图显示的城市 此项是必须设置的
             map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
             // 添加定位控件
             var geolocationControl = new BMap.GeolocationControl();
