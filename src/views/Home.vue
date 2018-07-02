@@ -55,6 +55,18 @@ export default {
             return this.b.name;
         }
     },
+    mounted: function () {
+        var device = this.isMobile();
+        if (device == null) {
+            console.log('pc端');            
+        } else if (device.length > 0) {
+            if (device[0] == 'Android') {
+                console.log('android端');            
+            } else if (device[0] == 'iPhone' || device[0] == 'iPad') {
+                console.log('ios端');            
+            }
+        }
+    },
     methods: {
         getreq: function() {
             // ajax async request            
@@ -115,6 +127,10 @@ export default {
             socket.open = function () {
                 console.log('connection opened');                
             };
+        },
+        isMobile () {
+            let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+            return flag;
         }
     }
 }
