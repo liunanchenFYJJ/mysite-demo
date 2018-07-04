@@ -12,7 +12,7 @@ export default {
                 {cname: '联电能源', address: '地址 :北京市朝阳区望京阜荣街10号首开广场4层', position: [120.72449,31.254767]},
                 {cname: 'a', address: 'a', position: [120.70439,31.251647]}
             ],
-            myPosition: []
+            myPosition: null
         }
     },
     mounted: function () {
@@ -21,19 +21,12 @@ export default {
     methods: {
         createGDMap: function () {
             var self = this;
-            /***************************************
-            由于Chrome、IOS10等已不再支持非安全域的浏览器定位请求，为保证定位成功率和精度，请尽快升级您的站点到HTTPS。
-            ***************************************/
             var map, geolocation;
             //加载地图，调用浏览器定位服务
             map = new AMap.Map('container');
+            map.clearMap();  // 清除地图覆盖物
             for (let i = 0; i < self.companys.length; i++) {
-                addMarker(i);  
-                new AMap.Polyline({
-                    map:map,
-                    strokeColor:'red',
-                    path:[self.myPosition, self.companys[i].position]
-                })          
+                addMarker(i);           
             }
             function addMarker(i) {
                 // map.clearMap();
@@ -58,28 +51,12 @@ export default {
                 });
                 marker.setMap(map);
             }
-            // new AMap.Polyline({
-            //     map:map,
-            //     strokeColor:'red',
-            //     path:[self.companys[0].position, self.companys[1].position]
-            // })
-            // new AMap.Text({
-            //     text: '两点相距'+Math.round(self.companys[0].position.distance(self.companys[1].position))+'米',
-            //     position: self.companys[0].position.divideBy(2).add(self.companys[1].position.divideBy(2)),
-            //     map:map,
-            //     style:{'background-color':'#ccccff',
-            //             'border-color':'green',
-            //             'font-size':'12px'}
-            // })
-
-            
-
             map.plugin('AMap.Geolocation', function() {
                 geolocation = new AMap.Geolocation({
                     enableHighAccuracy: true,//是否使用高精度定位，默认:true
                     timeout: 10000,          //超过10秒后停止定位，默认：无穷大
                     buttonOffset: new AMap.Pixel(60, 80),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-                    zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                    // zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
                     buttonPosition:'RB'
                 });
                 map.addControl(geolocation);
@@ -89,8 +66,6 @@ export default {
             });
             //解析定位结果
             function onComplete(data) {
-                self.myPosition.push( data.position.getLng());
-                self.myPosition.push( data.position.getLat());
                 var str=['定位成功'];
                 str.push('经度：' + data.position.getLng());
                 str.push('纬度：' + data.position.getLat());
@@ -100,11 +75,38 @@ export default {
                 str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
                 document.getElementById('tip').innerHTML = str.join('<br>');
                 // alert(str);
+                // 添加我的位置点
+                var mylnglat = new AMap.LngLat(data.position.getLng(), data.position.getLat());
+                self.myPosition = mylnglat;
+                var mymarker = new AMap.Marker({
+                    map: map,
+                    position: mylnglat
+                });
+                // mymarker.setMap(map);   
+                map.setFitView();
+                for (let i = 0; i < self.companys.length; i++) {
+                    new AMap.Polyline({
+                        map: map,
+                        strokeColor: 'red',
+                        path: [self.myPosition, self.companys[i].position]
+                    })
+                    var lnglat = new AMap.LngLat(self.companys[i].position[0], self.companys[i].position[1]);
+                    if (lnglat) {
+                        new AMap.Text({
+                            text: '两点相距' + Math.round(mylnglat.distance(lnglat)) + '米',
+                            position: mylnglat.divideBy(2).add(lnglat.divideBy(2)),
+                            map: map,
+                            style: {'background-color':'#ccccff',
+                                    'border-color':'green',
+                                    'font-size':'12px'}
+                        })
+                    }
+                }
             }
             //解析定位错误信息
             function onError(data) {
                 document.getElementById('tip').innerHTML = '定位失败';
-            }
+            } 
         }
     }
 }
@@ -119,7 +121,4 @@ export default {
     width: 375px;
     height: 667px;
 }
-/* div.amap-info-contentContainer {
-    margin-bottom: 20px;
-} */
 </style>
