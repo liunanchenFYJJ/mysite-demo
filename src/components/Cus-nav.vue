@@ -23,7 +23,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="/layout/photos">photos</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
+                        <li><a href="/layout/gdmap">gdmap</a></li>
                     </ul>
                     </li>
                 </ul>

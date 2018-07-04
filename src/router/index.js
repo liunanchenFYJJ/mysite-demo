@@ -6,6 +6,7 @@ const Home = () => import('@/views/Home') // 懒加载
 import Blog from '@/views/Blog'
 import Aboutme from '@/views/Aboutme'
 import Photos from '@/views/Photos'
+import Gdmap from '@/views/Gdmap'
 import Notfound from '@/views/Notfound'
 import Address from '@/views/Address'
 import User from '@/views/User'
@@ -43,7 +44,7 @@ export default new Router({
         {
           path: 'photos',
           component: Photos,
-        }
+        },
         // {
         //   path: 'address',
         //   name: 'Address',
@@ -96,6 +97,10 @@ export default new Router({
     {
       path: '/success',
       component: Success
+    },
+    {
+      path: '/gdmap',
+      component: Gdmap,
     },
     {
       path: '*',
