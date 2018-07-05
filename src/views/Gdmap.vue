@@ -33,8 +33,26 @@ export default {
         createGDMap: function () {
             var self = this;
             self.map = new AMap.Map('container');
+            // var toolBar = new AMap.ToolBar();
+            // self.map.addControl(toolBar);
+            // toolBar.show();
+            // toolBar.hideRuler();
+            // toolBar.hideDirection();
             self.map.plugin(["AMap.ToolBar"], function () {
-                var tool = new AMap.ToolBar();  //加载工具条
+                var toolopt = {
+                    offset :new AMap.Pixel(10,10),//相对于地图容器左上角的偏移量，正数代表向右下偏移。默认为AMap.Pixel(10,10)
+                    position : 'RB',
+                    ruler : true,//标尺键盘是否可见，默认为true
+                    noIpLocate : false,//定位失败后，是否开启IP定位，默认为false
+                    locate : true,//是否显示定位按钮，默认为false
+                    liteStyle : false,//是否使用精简模式，默认为false
+                    direction : false,//方向键盘是否可见，默认为true
+                    autoPosition : true,//是否自动定位，即地图初始化加载完成后，是否自动定位的用户所在地，在支持HTML5的浏览器中有效，默认为false
+                    locationMarker : AMap.Marker({map: self.map}),
+                    useNative : false
+                }
+
+                var tool = new AMap.ToolBar(toolopt);  //加载工具条
                 self.map.addControl(tool);    
             });
         },
@@ -123,9 +141,11 @@ export default {
                                 text: '两点相距' + Math.round(mylnglat.distance(lnglat)) + '米',
                                 position: mylnglat.divideBy(2).add(lnglat.divideBy(2)),
                                 map: self.map,
-                                style: {'background-color':'#ccccff',
-                                        'border-color':'green',
-                                        'font-size':'12px'}
+                                style: {
+                                    'background-color':'#ccccff',
+                                    'border-color':'green',
+                                    'font-size':'6px'
+                                }
                             })
                         }
                     }                    
