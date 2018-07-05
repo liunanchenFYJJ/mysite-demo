@@ -25,18 +25,16 @@ export default {
             const step = 0.01;
             this.getMyposition(step);
         }, 10000);
-        // this.addMarkers();
+        this.addMarkers();
     },
     methods: {
         createGDMap1: function () {
             var self = this;
             self.map = new AMap.Map('container');
-            console.log(self.map);
         },
         addMarkers: function () {
             var self = this;
             self.map.clearMap();  // 清除地图覆盖物            
-            // var markerList = []
             for (let i = 0; i < self.companys.length; i++) {
                 self.markerList[i] = new AMap.Marker({
                     position: new AMap.LngLat(self.companys[i].position[0], self.companys[i].position[1]),
@@ -44,18 +42,28 @@ export default {
                 AMap.event.addListener(self.markerList[i], 'click', function() {
                     infoWindow.open(self.map, self.markerList[i].getPosition());
                 });
+                //构建信息窗体中显示的内容
+                var info = [];
+                info.push("<div><div><img style=\"float:left;\" src=\" https://webapi.amap.com/images/autonavi.png \"/></div><br/>");
+                info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>");
+                info.push(self.companys[i].cname);
+                info.push("</b><br/>电话 : 010-84107000   邮编 : 100102<br/>");
+                info.push("</div></div>");
                 var infoWindow = new AMap.InfoWindow({
-                    content: 'hello',  //使用默认信息窗体框样式，显示信息内容
+                    content: info.join(""),  //使用默认信息窗体框样式，显示信息内容
                     offset: new AMap.Pixel(0, -20)
                 });
+                // var infoWindow = new AMap.InfoWindow({
+                //     content: 'hello',  //使用默认信息窗体框样式，显示信息内容
+                //     offset: new AMap.Pixel(0, -20)
+                // });
             }
             self.map.add(self.markerList);
             self.map.setFitView();            
         },
         getMyposition: function (step) {
             var self = this;
-            var map = new AMap.Map('container');            
-            map.plugin('AMap.Geolocation', function() {
+            self.map.plugin('AMap.Geolocation', function() {
                 var geolocation = new AMap.Geolocation({
                     // 设置定位超时时间，默认：无穷大
                     timeout: 10000,
@@ -72,19 +80,25 @@ export default {
                 AMap.event.addListener(geolocation, 'error', onError);
 
                 function onComplete (data) {
+                    var str=['定位成功'];
+                    str.push('经度：' + data.position.getLng());
+                    str.push('纬度：' + data.position.getLat());
+                    if(data.accuracy){
+                        str.push('精度：' + data.accuracy + ' 米');
+                    }//如为IP精确定位结果则没有精度信息
+                    str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
+                    document.getElementById('tip').innerHTML = str.join('<br>');
                     console.log('success');
                     var mylnglat = new AMap.LngLat(data.position.getLng() + step, data.position.getLat() + step);
                     self.myPosition = mylnglat;
                     var mymarker = new AMap.Marker({
-                        map: map,
+                        map: self.map,
                         position: mylnglat
                     });
-                    // self.markerList.push(mymarker);
                     console.log(mylnglat.getLng());
-                    // map.setFitView();
                     for (let i = 0; i < self.companys.length; i++) {
                         new AMap.Polyline({
-                            map: map,
+                            map: self.map,
                             strokeColor: 'red',
                             path: [self.myPosition, self.companys[i].position]
                         })
@@ -93,7 +107,7 @@ export default {
                             new AMap.Text({
                                 text: '两点相距' + Math.round(mylnglat.distance(lnglat)) + '米',
                                 position: mylnglat.divideBy(2).add(lnglat.divideBy(2)),
-                                map: map,
+                                map: self.map,
                                 style: {'background-color':'#ccccff',
                                         'border-color':'green',
                                         'font-size':'12px'}
@@ -104,7 +118,7 @@ export default {
 
                 function onError (data) {
                     console.log('error');
-                    // document.getElementById('tip').innerHTML = '定位失败';                    
+                    document.getElementById('tip').innerHTML = '定位失败';                    
                 }
             })
         },
@@ -142,7 +156,6 @@ export default {
             // }
             map.plugin('AMap.Geolocation', function() {
                 geolocation = new AMap.Geolocation({
-                    enableHighAccuracy: true,//是否使用高精度定位，默认:true
                     timeout: 10000,          //超过10秒后停止定位，默认：无穷大
                     buttonOffset: new AMap.Pixel(60, 80),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
                     // zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
