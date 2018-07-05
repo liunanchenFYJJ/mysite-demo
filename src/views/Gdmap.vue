@@ -15,16 +15,17 @@ export default {
             ],
             myPosition: null,
             map: null,
-            markerList: []
+            markerList: [],
+            info: []
         }
     },
     mounted: function () {
         // this.createGDMap();
         this.createGDMap1();
-        setInterval(() => {     //每隔10秒获取一次新位置
-            const step = 0.01;
-            this.getMyposition(step);
-        }, 10000);
+        // setInterval(() => {     //每隔10秒获取一次新位置
+            this.getMyposition();
+        // }, 10000);
+        this.markersInfo();
         this.addMarkers();
     },
     methods: {
@@ -34,34 +35,42 @@ export default {
         },
         addMarkers: function () {
             var self = this;
-            self.map.clearMap();  // 清除地图覆盖物            
+            self.map.clearMap();  // 清除地图覆盖物
+            var infoWindow = [];            
             for (let i = 0; i < self.companys.length; i++) {
                 self.markerList[i] = new AMap.Marker({
+                    icon: new AMap.Icon({            
+                        size: new AMap.Size(32, 40),  //图标大小
+                        image: "http://hw-iot.com:8020/static/img/map/factory.png",
+                        imageOffset: new AMap.Pixel(-4, -3),
+                        imageSize: new AMap.Size(32, 37)
+                    }),
                     position: new AMap.LngLat(self.companys[i].position[0], self.companys[i].position[1]),
                 });
-                AMap.event.addListener(self.markerList[i], 'click', function() {
-                    infoWindow.open(self.map, self.markerList[i].getPosition());
-                });
-                //构建信息窗体中显示的内容
-                var info = [];
-                info.push("<div><div><img style=\"float:left;\" src=\" https://webapi.amap.com/images/autonavi.png \"/></div><br/>");
-                info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>");
-                info.push(self.companys[i].cname);
-                info.push("</b><br/>电话 : 010-84107000   邮编 : 100102<br/>");
-                info.push("</div></div>");
-                var infoWindow = new AMap.InfoWindow({
-                    content: info.join(""),  //使用默认信息窗体框样式，显示信息内容
+                // self.markerList[i].setMap(self.map);
+                infoWindow[i] = new AMap.InfoWindow({
+                    content: self.info[i],  //使用默认信息窗体框样式，显示信息内容
                     offset: new AMap.Pixel(0, -20)
                 });
-                // var infoWindow = new AMap.InfoWindow({
-                //     content: 'hello',  //使用默认信息窗体框样式，显示信息内容
-                //     offset: new AMap.Pixel(0, -20)
-                // });
+                AMap.event.addListener(self.markerList[i], 'click', function() {
+                    infoWindow[i].open(self.map, self.markerList[i].getPosition());
+                });
             }
             self.map.add(self.markerList);
             self.map.setFitView();            
         },
-        getMyposition: function (step) {
+        markersInfo: function () {
+            //构建信息窗体中显示的内容
+            var self = this;
+            for (let i = 0; i < self.companys.length; i++) {
+                self.info[i] = ("<div><div><img style=\"float:left;\" src=\" https://webapi.amap.com/images/autonavi.png \"/></div><br/>");
+                self.info[i] += ("<div style=\"padding:0px 0px 0px 4px;\"><b>");
+                self.info[i] += (self.companys[i].cname);
+                self.info[i] += ("</b><br/>电话 : 010-84107000   邮编 : 100102<br/>");
+                self.info[i] += ("</div></div>");
+            }
+        },
+        getMyposition: function () {
             var self = this;
             self.map.plugin('AMap.Geolocation', function() {
                 var geolocation = new AMap.Geolocation({
@@ -80,6 +89,8 @@ export default {
                 AMap.event.addListener(geolocation, 'error', onError);
 
                 function onComplete (data) {
+                    var mymarker = null;
+                    // self.map.remove(mymarker);
                     var str=['定位成功'];
                     str.push('经度：' + data.position.getLng());
                     str.push('纬度：' + data.position.getLat());
@@ -89,9 +100,9 @@ export default {
                     str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
                     document.getElementById('tip').innerHTML = str.join('<br>');
                     console.log('success');
-                    var mylnglat = new AMap.LngLat(data.position.getLng() + step, data.position.getLat() + step);
+                    var mylnglat = new AMap.LngLat(data.position.getLng(), data.position.getLat());
                     self.myPosition = mylnglat;
-                    var mymarker = new AMap.Marker({
+                    mymarker = new AMap.Marker({
                         map: self.map,
                         position: mylnglat
                     });
