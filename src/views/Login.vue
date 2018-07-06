@@ -66,7 +66,7 @@ export default {
                 type: 'post',
                 data: {username: '电工1', password: '123456', lngLat: '0'},
                 // dataType: "JSON",
-                // crossDomain: true,
+                crossDomain: true,
                 // jsonpCallback: "sucCallback",
                 // beforeSend: function (xhr) {
                 //     var token = $.cookie('token');
