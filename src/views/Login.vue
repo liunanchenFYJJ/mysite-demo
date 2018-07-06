@@ -50,16 +50,37 @@ export default {
             $('#email').blur(this.validateEmail());
             $('#password').blur(this.validatePassword());
 
-            if (false) {
-                alert('submit!');
-            } else {
-                console.log('error submit!!');
-                return false;
-            }
+            // if (false) {
+            //     alert('submit!');
+            // } else {
+            //     console.log('error submit!!');
+            //     return false;
+            // }
 
-            $.post('/', {username: this.username, password: this.password}, function (data) {
-                console.log(data);
-            })
+            // $.post('http://192.168.0.107:8080/solar-sales/workerToLogin', {username: this.username, password: this.password}, function (data) {
+            //     console.log(data);
+            // })
+
+            $.ajax({
+                url: 'http://192.168.0.107:8080/solar-sales/workerToLogin',
+                type: 'post',
+                data: {username: '电工1', password: '123456', lngLat: '0'},
+                // dataType: "JSON",
+                // crossDomain: true,
+                // jsonpCallback: "sucCallback",
+                // beforeSend: function (xhr) {
+                //     var token = $.cookie('token');
+                //     if (token) {
+                //         xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                //     }
+                // },
+                success: function(data, textStatus) {
+                    location.href = '/gdmap';
+                    console.log(JSON.parse(data));
+                    console.log(textStatus);
+                }
+            });
+
 
             // 如果记住我，存入cookie
             if (this.remeberMe == true) {

@@ -112,6 +112,18 @@ export default {
                 AMap.event.addListener(geolocation, 'error', onError);
 
                 function onComplete (data) {
+                    let positionData = data.position.getLng() + ',' + data.position.getLat();
+                    console.log(positionData);
+                    // 向后台发送位置
+                    $.ajax({
+                        url: 'http://192.168.0.107:8080/solar-sales/updateLnglat',
+                        type: 'post',
+                        data: {positionData},
+                        success: function(data, textStatus) {
+                            console.log(JSON.parse(data));
+                            console.log(textStatus);
+                        }
+                    });
                     // self.map.remove(self.mymarker);
                     var str=['定位成功'];
                     str.push('经度：' + data.position.getLng());
