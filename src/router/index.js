@@ -7,6 +7,7 @@ import Blog from '@/views/Blog'
 import Aboutme from '@/views/Aboutme'
 import Photos from '@/views/Photos'
 import Gdmap from '@/views/Gdmap'
+import Esign from '@/views/Esign'
 import Notfound from '@/views/Notfound'
 import Address from '@/views/Address'
 import User from '@/views/User'
@@ -90,6 +91,10 @@ export default new Router({
       path: '/login',
       component: Login
     },    
+    {
+      path: '/esign',
+      component: Esign
+    },  
     {
       path: '/registe',
       component: Registe
